@@ -1,2 +1,2 @@
 # page
-Halaman spesifik Modenyania
+Halaman spesifik Modenyania/shop
