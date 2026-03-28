@@ -421,7 +421,7 @@ function applyFilters() {
 function updateFacetVisibility(filteredProducts) {
     const availableTags = new Set();
 
-    // Kumpulkan semua tag yang tersedia dari produk yang sudah difilter
+    // Kumpulkan semua tag yang masih tersedia setelah filter
     filteredProducts.forEach(p => {
         if (p.compiledTags) {
             p.compiledTags.forEach(tag => {
@@ -430,21 +430,21 @@ function updateFacetVisibility(filteredProducts) {
         }
     });
 
-    // === RESET SEMUA IS-EMPTY TERLEBIH DAHULU ===
+    // Reset semua is-empty dulu
     document.querySelectorAll('.group-details, .sub-details, .sub-item, .chip, .checkbox-item')
         .forEach(el => el.classList.remove('is-empty'));
 
-    // ====================== LEVEL 3 & CHECKBOX ======================
+    // ====================== LEVEL 3 + CHECKBOX + LEVEL 2 TANPA SUBITEM ======================
     document.querySelectorAll('.chip, .checkbox-item, .sub-item').forEach(el => {
-        const input = el.querySelector('input');
         let key = null;
+        const input = el.querySelector('input');
 
         if (input) {
-            key = input.value;                    // checkbox
+            key = input.value;                    // checkbox (multi-select)
         } else if (el.dataset.subsub) {
             key = el.dataset.subsub;              // level 3 chip
         } else if (el.dataset.subKey) {
-            key = el.dataset.subKey;              // level 2 tanpa subitems
+            key = el.dataset.subKey;              // level 2 single-select tanpa subitems
         }
 
         if (key) {
@@ -452,23 +452,21 @@ function updateFacetVisibility(filteredProducts) {
                 ? input.checked 
                 : el.classList.contains('active');
 
-            const isExist = availableTags.has(key.toLowerCase().trim());
+            const existsInProducts = availableTags.has(key.toLowerCase().trim());
 
-            // Hanya beri is-empty jika TIDAK diceklis DAN tidak ada di produk yang tersisa
-            el.classList.toggle('is-empty', !isChecked && !isExist);
+            el.classList.toggle('is-empty', !isChecked && !existsInProducts);
         }
     });
 
     // ====================== LEVEL 2 (sub-details) ======================
     document.querySelectorAll('.sub-details').forEach(sub => {
-        const hasVisibleChildren = Array.from(
-            sub.querySelectorAll('.chip, .sub-item')
-        ).some(child => !child.classList.contains('is-empty'));
+        const hasVisibleChild = Array.from(sub.querySelectorAll('.chip, .sub-item'))
+            .some(child => !child.classList.contains('is-empty'));
 
-        sub.classList.toggle('is-empty', !hasVisibleChildren);
+        sub.classList.toggle('is-empty', !hasVisibleChild);
     });
 
-    // ====================== LEVEL 1 (group-details) ======================
+    // ====================== LEVEL 1 (group-details) — INI YANG DIPERBAIKI ======================
     document.querySelectorAll('.group-details').forEach(group => {
         const groupKey = group.dataset.catKey;
         const isMultiSelect = MULTI_SELECT_CATEGORIES.includes(groupKey);
@@ -476,23 +474,27 @@ function updateFacetVisibility(filteredProducts) {
         let hasVisibleContent = false;
 
         if (isMultiSelect) {
-            // Multi-select: cek apakah ada checkbox yang visible
+            // Multi-select → cek checkbox yang masih relevan
             hasVisibleContent = Array.from(group.querySelectorAll('.checkbox-item'))
                 .some(item => !item.classList.contains('is-empty'));
         } 
         else {
-            // Single-select:
-            const hasItems = group.querySelectorAll('.sub-item, .sub-details').length > 0;
+            const hasChildren = group.querySelectorAll('.sub-item, .sub-details').length > 0;
 
-            if (!hasItems) {
-                // ← INI YANG PENTING
-                // Kategori tanpa sub-kategori → JANGAN pernah disembunyikan
-                hasVisibleContent = true;
-            } else {
-                // Ada sub-items → cek apakah ada yang visible
-                hasVisibleContent = Array.from(
-                    group.querySelectorAll('.sub-details, .sub-item')
-                ).some(item => !item.classList.contains('is-empty'));
+            if (!hasChildren) {
+                // === KATEGORI TANPA SUB-ITEMS (items: []) ===
+                // Cek apakah group.key sendiri ada di produk yang tersisa
+                const groupExists = availableTags.has(groupKey.toLowerCase().trim());
+
+                // Jika sudah aktif (dipilih user), jangan disembunyikan
+                const isActive = active.groups && active.groups[groupKey];
+
+                hasVisibleContent = isActive || groupExists;
+            } 
+            else {
+                // Ada sub-items → cek apakah ada anak yang visible
+                hasVisibleContent = Array.from(group.querySelectorAll('.sub-details, .sub-item'))
+                    .some(item => !item.classList.contains('is-empty'));
             }
         }
 
