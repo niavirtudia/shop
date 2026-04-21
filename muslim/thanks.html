@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mengarahkan ke Shopee...</title>
+
+  <!-- Meta Pixel Base Code, sama kayak di atas -->
+  <script>
+ !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '4055062164765874');
+  fbq('track', 'PageView');
+  </script>
+
+  <script>
+    // Fungsi buat ambil parameter dari URL
+    function getParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Ambil data dari URL
+    const sku = getParam('sku');
+    const harga = parseFloat(getParam('harga'));
+    const shopeeLink = decodeURIComponent(getParam('link')); // decode link Shopee
+
+    // Fire event Purchase kalau parameter lengkap
+    if (sku && harga && shopeeLink) {
+      fbq('track', 'Purchase', {
+        content_ids: [sku], // ini yang nyambung ke katalog
+        content_type: 'product',
+        value: harga,
+        currency: 'IDR'
+      });
+
+      // Tunggu 1200ms biar event kekirim, baru redirect ke Shopee
+      setTimeout(function() {
+        window.location.replace(shopeeLink);
+      }, 1200);
+    } else {
+      // Kalau parameter nggak lengkap, balik ke home
+      document.body.innerHTML = '<p>Terjadi kesalahan. Kembali ke <a href="/shop/muslim">katalog</a></p>';
+    }
+  </script>
+</head>
+<body>
+  <p style="text-align:center; margin-top:50px; font-family:sans-serif;">
+    Mengarahkan kamu ke Shopee... 🛒
+  </p>
+</body>
+</html>
