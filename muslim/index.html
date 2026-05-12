@@ -100,11 +100,10 @@ let allProducts=[],currentData=[],renderedCount=0;const itemsPerLoad=20;let acti
 <amp-lightbox class="viewguide" id="viewguide" scrollable="" layout="nodisplay"><div class="closeguide"><span on="tap:viewguide.close" role="button" tabindex="0" aria-label="Close Guide"><svg><use xlink:href="#icon-close"/></svg></span></div>
 <div class="guide-inner">
 <p class="transparansi"><b>Penting!</b> Kami mungkin akan mendapatkan komisi yang fair berdasarkan klik dan belanja kamu. Tetapi tidak semua produk yang ada di katalog ini ya. Soalnya, tidak semua produk yang kami sajikan adalah produk berkomisi. Karena ide awal kami hanya sebatas koleksi produk yang kami minati.</p>
-<!--
 <h2>Panduan Menggunakan Katalog Fashion Muslim</h2>
 <p>Katalog ini berisi kumpulan <b>pakaian muslim dan muslimah terbaik</b>. Hasil kurasi dari berbagai brand berkualitas, termasuk produk premium dan keluaran terbaru. Semua item dipilih berdasarkan jenis pakaian, desain, bahan, dan tren terbaru agar kamu bisa menemukan inspirasi gaya sekaligus langsung berbelanja dengan mudah.</p>
 <h3>Kelebihan Katalog</h3>
-<p><b>1. Navigasi Cepat &amp; Intuitif</b></p>
+<p><b>1. Navigasi Cepat & Intuitif</b></p>
 <p><b>Gunakan sidebar (menu ≡ versi mobile) untuk navigasi cepat!</b> Karena pembagian kategori dirancang logis sehingga kamu dapat menemukan produk hanya dalam 2-3 klik tanpa scroll panjang.</p>
 <p><b>2. Personalisasi Tinggi</b></p>
 <p>Tersedia filter berdasarkan gaya, panjang busana, kegiatan/acara, edisi premium, pakaian khusus (plus size/maternity), hingga traveling.</p>
@@ -115,15 +114,14 @@ let allProducts=[],currentData=[],renderedCount=0;const itemsPerLoad=20;let acti
 <h3>Cara Menggunakan Katalog</h3>
 <p><b>Menemukan Produk</b></p>
 <ul>
-  <li>Gunakan kolom pencarian untuk mencari produk berdasarkan nama pakaian, tipe busana, bahan, atau merek.</li>
-  <li>Gunakan sidebar navigasi untuk filter spesifik, di mana seluruh produk sudah dikelompokkan berdasarkan kategori dan gayamu hingga aksesoris.</li>
-  <li><b>Penting!</b> Pada filter sidebar terdapat 2 sistem filter. Pertama, kamu bisa melakukan filter <i>multi-select</i> pada grup <b>mulai pilih gaya</b>. Ini adalah filter dasar yang membantu kamu menemukan pakaian muslim terbaik yang sesuai dengan dirimu. Kedua, langsung pada grup & kategori yang lain atau menggunakan keduanya sekaligus adalah cara terbaik.</li>
+  <li>Gunakan kotak pencarian untuk mencari produk berdasarkan <b>kode unik yang kamu dapatkan dari media sosial</b>, nama, merek, kategori, atau karakter spesifik (misalnya: abaya modern, gamis pesta, dan gamis simpel).</li>
+  <li>Gunakan sidebar navigasi <b>(FILTER ≡ versi mobile)</b> untuk filter yang lebih spesifik, di mana seluruh produk sudah dikelompokkan berdasarkan gaun & dress panjang, atasan, bawahan, preferensi, dan setelan.</li>
+  <li><b>Penting!</b> <b>Sidebar sudah dirancang secerdas mungkin, hal ini memudahkan kamu memilih produk yang tepat</b>. Dengan sistem filter <i>smart-driven</i> atau logika <i>smart facet</i>, <b>satu pilihan pertama kamu menentukan pilihan filter yang lainnya</b>.</li>
 </ul>
 <p><b>Cara Berbelanja</b></p>
 <ul>
-  <li>Setelah menemukan produk, kamu akan melihat link produk ke toko resmi seperti <b>Shopee, TikTok Shop, Tokopedia, Lazada, Blibli,</b> atau <b>Zalora</b> (sesuai ketersediaan produk) untuk membeli.</li>
-  <li>Klik gambar atau nama produk. Kamu akan diarahkan menuju halaman artikel berisi: <b>penjelasan desain & bahan</b>, <b>kelebihan produk</b>, <b>tips <i>styling & mix and match</i></b>. Pada artikel juga tersedia link ke toko-toko tersebut.</li>
-  <li>Versi singkatnya, klik <b>lihat tag produk</b> pada setiap produk hasil filtermu! Di sana kamu akan melihat tag-tag yang terkait dengan pakaian muslim incaranmu.</li>
+  <li>Setelah menemukan produk, kamu akan melihat link produk ke toko resmi di <b>Shopee, TikTok Shop dan Tokopedia</b> (berdasarkan logo) untuk membeli.</li>
+  <li>Klik langsung pada produk kamu akan diarahkan menuju toko pertama yang terlihat secara <i>default</i>.</li>
 </ul>
 <h3>Struktur isi Katalog</h3>
 <p>Katalog ini berfokus pada fashion muslim lengkap, mencakup:</p>
@@ -232,11 +230,6 @@ let allProducts=[],currentData=[],renderedCount=0;const itemsPerLoad=20;let acti
   <li>Sarung, sarung modern, set koko & sarung</li>
   <li>Aksesoris: peci/songkok, sorban, tasbih, parfum muslim</li>
 </ul>
-<p><b>✅ Koleksi Merek</b></p>
-<ul>
-  <li>Berisi kumpulan berdasarkan brand lokal, desainer, hingga brand internasional</li>
-  <li>Bisa digunakan untuk mencari produk berdasarkan nama merek favorit</li>
-</ul>
 <h3>Cara Tetap Mengakses Katalog (Agar Tidak Hilang)</h3>
 <p>Katalog ini mendukung teknologi <b>PWA (Progressive Web App)</b>, jadi:</p>
 <ul>
@@ -248,8 +241,7 @@ let allProducts=[],currentData=[],renderedCount=0;const itemsPerLoad=20;let acti
 </ul>
 <p><b>Cara instal:</b></p>
 <ol>
-  <li>Buka katalog melalui browser (Chrome/Safari/Edge)</li>
-  <li>Klik <a href="https://list.modenyania.com/install-app/" title="Install BFL"><b>INSTALL</b></a>, dan tunggu proses selesai!</li>
+  <li>Klik <a href="https://www.modenyania.com/install-pwa/" title="Install"><b>INSTALL</b></a>, dan tunggu proses selesai!</li>
   <li>Selesai, ikon katalog akan muncul seperti aplikasi.</li>
   <li>Sekarang kamu bebas akses kapan saja, <i>all-in-one!</i></li>
 </ol>
@@ -261,7 +253,6 @@ let allProducts=[],currentData=[],renderedCount=0;const itemsPerLoad=20;let acti
 <li>Bantu sebarkan ke teman kamu yang suka fashion muslim.</li>
 <li>Follow sosial media supaya gak ketinggalan update gamis, hijab, dan koleksi terbaru!</li>
 </ul>
--->
 </div>
 </amp-lightbox>
 </body>
