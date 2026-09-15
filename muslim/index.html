@@ -655,6 +655,44 @@
     }
     .guide-content { line-height: 1.6; font-size: 14px; color: #333; }
     .guide-content p, .guide-content ul { margin-bottom: 12px; }
+/* Styling Tombol Load More */
+.load-more-wrapper {
+  margin: 35px 0 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-load-more {
+  box-sizing: border-box;
+  padding: 11px 32px;
+  background: #ffffff;
+  color: #222222;
+  border: 1.5px solid #222222;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 220px;
+  text-align: center;
+}
+
+.btn-load-more:hover {
+  background: #222222;
+  color: #ffffff;
+}
+
+.btn-load-more:active {
+  transform: scale(0.98);
+}
+
+.load-more-text {
+  font-size: 13px;
+  color: var(--muted);
+}
   </style>
 </head>
 <body>
@@ -711,6 +749,12 @@
 
   <!-- Product Grid -->
   <div id="product-grid" class="product-grid"></div>
+  <div class="load-more-wrapper" id="load-more-wrapper" style="display: none;">
+    <button class="btn-load-more" id="btn-load-more">
+      Muat Lebih Banyak
+    </button>
+    <p class="load-more-text" id="load-more-count">Menampilkan 0 dari 0 produk</p>
+  </div>
   <div id="empty-state" class="empty-state" style="display:none;">Tidak ada produk yang cocok dengan filter yang dipilih.</div>
 </main>
 
@@ -811,7 +855,9 @@ const filterPane = document.getElementById("filter-pane");
 const filterBadge = document.getElementById("filter-badge");
 const activeFilterText = document.getElementById("active-filter-text");
 const productCountEl = document.getElementById("product-count");
-
+const loadMoreWrapper = document.getElementById("load-more-wrapper");
+const btnLoadMore = document.getElementById("btn-load-more");
+const loadMoreCount = document.getElementById("load-more-count");
 /**
  * 1. Inisialisasi Data & Config
  */
@@ -1039,8 +1085,10 @@ function applyFilter() {
  */
 function renderNextBatch() {
   const nextItems = filteredProducts.slice(renderedCount, renderedCount + ITEMS_PER_PAGE);
+  
   if (nextItems.length === 0 && renderedCount === 0) {
     emptyState.style.display = "block";
+    loadMoreWrapper.style.display = "none";
     return;
   }
   emptyState.style.display = "none";
@@ -1095,8 +1143,16 @@ function renderNextBatch() {
   });
 
   renderedCount += nextItems.length;
-}
 
+  // KONTROL TAMPILAN TOMBOL LOAD MORE
+  if (renderedCount < filteredProducts.length) {
+    loadMoreWrapper.style.display = "flex";
+    loadMoreCount.textContent = `Menampilkan ${renderedCount} dari ${filteredProducts.length} produk`;
+  } else {
+    // Sembunyikan tombol jika semua produk sudah tampil
+    loadMoreWrapper.style.display = "none";
+  }
+}
 /**
  * 7. Event Listeners & Integrasi
  */
@@ -1173,13 +1229,10 @@ document.getElementById("btn-share").addEventListener("click", async () => {
 });
 
 // Infinite Scroll
-window.addEventListener("scroll", () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 400) {
-    if (renderedCount < filteredProducts.length) {
-      renderNextBatch();
-    }
-  }
-}, { passive: true });
+// Jalankan load more saat tombol diklik
+btnLoadMore.addEventListener("click", () => {
+  renderNextBatch();
+});
 
 // Tracking Affiliate Clicks
 document.addEventListener("click", (e) => {
